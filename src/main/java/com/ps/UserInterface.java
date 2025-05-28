@@ -4,7 +4,8 @@ import java.util.Scanner;
 
 public class UserInterface {
     Scanner scanner = new Scanner(System.in);
-    boolean running = true;
+    private boolean running = true;
+    private Order order = new Order();
 
     public void showMenu(){
         while(running){
@@ -36,7 +37,17 @@ public class UserInterface {
     }
 
     public void addDrink(){
-        System.out.println("add Drink part start.");
+        scanner.nextLine();
+        System.out.println("Enter drink name: ");
+        String name = scanner.nextLine();
+
+        System.out.println("Enter drink price: ");
+        double price = scanner.nextDouble();
+
+        Drink drink = new Drink(name, price);
+        order.addProduct(drink);
+
+        System.out.println("Drink added!");
     }
 
     public void addChips(){
@@ -44,11 +55,17 @@ public class UserInterface {
     }
 
     public void viewOrder(){
-        System.out.println("view Order part start.");
+        order.displayProduct();
     }
 
     public void checkOut(){
-        System.out.println("Checkout part start");
+        if(order.isEmpty()){
+            System.out.println("Cannot checkout. Order is empty.");
+        }else{
+            order.displayProduct();
+            System.out.println("Checkout Complete!");
+            System.exit(0);
+        }
     }
 
     public void exit(){

@@ -1,4 +1,13 @@
-package com.ps;
+package com.ps.ui;
+import com.ps.model.Sandwich;
+import com.ps.model.Chip;
+import com.ps.model.Drink;
+import com.ps.model.Order;
+
+
+import com.ps.model.Chip;
+import com.ps.model.Drink;
+import com.ps.model.Order;
 
 import java.util.Scanner;
 
@@ -7,31 +16,31 @@ public class UserInterface {
     private boolean running = true;
     private Order order = new Order();
 
-    public void launchApp(){
-        while(running){
+    public void launchApp() {
+        while (running) {
             showHomeScreen();
         }
     }
 
-    private void showHomeScreen(){
+    private void showHomeScreen() {
         System.out.println("\n===DELI-cious POS ===");
         System.out.println("1) New Order");
         System.out.println("0) Exit");
         System.out.print("Choose an option: ");
         int choice = Integer.parseInt(scanner.nextLine());
 
-        switch(choice){
+        switch (choice) {
             case 1 -> startNewOrder();
             case 0 -> exit();
             default -> System.out.println("Invalid option. Please try again.");
         }
     }
 
-    private void startNewOrder(){
+    private void startNewOrder() {
         order = new Order();
         boolean ordering = true;
 
-        while(ordering){
+        while (ordering) {
             System.out.println("\n--- Order Menu ---");
             System.out.println("1. Add Sandwich");
             System.out.println("2. Add Drink");
@@ -42,7 +51,7 @@ public class UserInterface {
 
             int userChoice = Integer.parseInt(scanner.nextLine());
 
-            switch (userChoice){
+            switch (userChoice) {
                 case 1 -> addSandwich();
                 case 2 -> addDrink();
                 case 3 -> addChips();
@@ -59,11 +68,11 @@ public class UserInterface {
         }
     }
 
-    public void addSandwich(){
+    public void addSandwich() {
         System.out.println("add Sandwich part coming.");
     }
 
-    public void addDrink(){
+    public void addDrink() {
         System.out.println("Enter drink flavor: ");
         String name = scanner.nextLine();
 
@@ -71,7 +80,7 @@ public class UserInterface {
         int sizeChoice = Integer.parseInt(scanner.nextLine());
 
         double price;
-        switch (sizeChoice){
+        switch (sizeChoice) {
             case 1 -> price = 2.00;
             case 2 -> price = 2.50;
             case 3 -> price = 3.00;
@@ -87,7 +96,7 @@ public class UserInterface {
         System.out.println("✔ Drink added!");
     }
 
-    public void addChips(){
+    public void addChips() {
         System.out.println("Enter chip type: ");
         String chipType = scanner.nextLine();
 
@@ -97,7 +106,7 @@ public class UserInterface {
         System.out.println("✔ Chips added!");
     }
 
-    public void checkOut(){
+    public void checkOut() {
         if (order.isEmpty()) {
             System.out.println("Cannot checkout. Order is empty.");
         } else {
@@ -106,7 +115,7 @@ public class UserInterface {
         }
     }
 
-    public void exit(){
+    public void exit() {
         System.out.println("Goodbye! Thanks for using DELI-cious POS.");
         running = false;
     }

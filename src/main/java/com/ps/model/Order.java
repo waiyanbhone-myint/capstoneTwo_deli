@@ -1,24 +1,23 @@
-package com.ps;
+package com.ps.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Order {
-    private List<Product> items= new ArrayList<>();
+    private List<Product> items = new ArrayList<>();
 
-    public void addProduct(Product product){
+    public void addProduct(Product product) {
         items.add(product);
     }
 
-    public void displayProduct(){
-        if(items.isEmpty()){
+    public void displayProduct() {
+        if (items.isEmpty()) {
             System.out.println("Order is empty.");
             return;
         }
 
         System.out.println("\n🧾 Order Details:");
-        for(Product item : items){
+        for (Product item : items) {
             System.out.println(item.getDetails());
         }
 

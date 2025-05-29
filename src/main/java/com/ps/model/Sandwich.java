@@ -89,4 +89,26 @@ public class Sandwich implements Product {
 
         return details.toString();
     }
+
+    public void addTopping(Topping topping) {
+        if (topping.getCategory() == ToppingCategory.MEAT) {
+            addMeat(topping.getName(), false);
+        } else if (topping.getCategory() == ToppingCategory.CHEESE) {
+            addCheese(topping.getName(), false);
+        } else if (topping.getCategory() == ToppingCategory.REGULAR) {
+            addRegular(topping.getName());
+        } else if (topping.getCategory() == ToppingCategory.SAUCE) {
+            addSauce(topping.getName());
+        }
+    }
+
+    public void removeTopping(String name) {
+        meats.removeIf(t -> t.getName().equalsIgnoreCase(name));
+        cheeses.removeIf(t -> t.getName().equalsIgnoreCase(name));
+        regulars.removeIf(t -> t.getName().equalsIgnoreCase(name));
+        sauces.removeIf(t -> t.getName().equalsIgnoreCase(name));
+    }
+
+
+
 }

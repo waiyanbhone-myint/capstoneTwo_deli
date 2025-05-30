@@ -3,11 +3,14 @@ package com.ps.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ps.util.InventoryTracker;
+
 public class Order {
     private List<Product> items = new ArrayList<>();
 
     public void addProduct(Product product) {
         items.add(product);
+        InventoryTracker.record(product.getClass().getSimpleName());
     }
 
     public void displayProduct() {

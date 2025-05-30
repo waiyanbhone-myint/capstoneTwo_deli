@@ -1,0 +1,18 @@
+========================================
+            DELI-cious POS
+         123 Sandwich Blvd, NYC
+         Tel: (555) 123-4567
+
+        🧾 ORDER RECEIPT 🧾
+
+Date: 2025-05-29
+Time: 21:05:05
+----------------------------------------
+8" WHITE (Toasted)
+  Regular Toppings: lettuce, peppers, onions, tomatoes, jalapeños, cucumbers, pickles, guacamole, mushrooms, 
+  Total: $7.00
+----------------------------------------
+
+TOTAL:                         $7.00
+Thank you for ordering with us!
+========================================

@@ -1,23 +1,17 @@
 package com.ps.ui;
-import com.ps.model.Size;
-import com.ps.model.Sandwich;
-import com.ps.model.Chip;
-import com.ps.model.Drink;
-import com.ps.model.Order;
-import com.ps.model.BreadType;
+
+import com.ps.model.*;
 import com.ps.signature.*;
 import com.ps.util.FileManager;
+import com.ps.util.InventoryTracker;
 import com.ps.util.Logger;
-//import com.ps.util.SalesReport;
-
 
 import java.util.Scanner;
 
 public class UserInterface {
-    Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
     private boolean running = true;
     private Order order = new Order();
-    //private SalesReport report = new SalesReport();
 
     public void launchApp() {
         while (running) {
@@ -26,16 +20,16 @@ public class UserInterface {
     }
 
     private void showHomeScreen() {
-        System.out.println("\n===DELI-cious POS ===");
+        System.out.println("\n=== DELI-cious POS ===");
         System.out.println("1) New Order");
-        //System.out.println("2) View Sales Report");
+        System.out.println("2) Inventory Report");
         System.out.println("0) Exit");
         System.out.print("Choose an option: ");
         int choice = Integer.parseInt(scanner.nextLine());
 
         switch (choice) {
             case 1 -> startNewOrder();
-            //case 2 -> report.printReport();
+            case 2 -> InventoryTracker.printReport();
             case 0 -> exit();
             default -> System.out.println("Invalid option. Please try again.");
         }
@@ -75,66 +69,97 @@ public class UserInterface {
         }
     }
 
+    private void addSandwich() {
+        System.out.println("\n-- Add Sandwich --");
+
+        BreadType bread = askBreadChoice();
+        Size size = askSizeChoice();
+        boolean toasted = askToasted();
+
+        Sandwich sandwich = new Sandwich(bread, size, toasted);
+        sandwich.addDefaultRegularToppings(); // Include all default regular toppings
+
+        // Add meats
+        System.out.println("Enter meat toppings (comma-separated or leave blank):");
+        for (String meat : scanner.nextLine().split(",")) {
+            if (!meat.trim().isEmpty()) sandwich.addMeat(meat.trim(), false);
+        }
+
+        // Add cheeses
+        System.out.println("Enter cheese toppings (comma-separated or leave blank):");
+        for (String cheese : scanner.nextLine().split(",")) {
+            if (!cheese.trim().isEmpty()) sandwich.addCheese(cheese.trim(), false);
+        }
+
+        // Show included regulars and allow removal
+        System.out.println("Included regular toppings:");
+        sandwich.getRegularToppings().forEach(t -> System.out.print(t.getName() + ", "));
+        System.out.println("\nRemove any toppings? (comma-separated or blank to skip):");
+        for (String r : scanner.nextLine().split(",")) {
+            if (!r.trim().isEmpty()) sandwich.removeTopping(r.trim());
+        }
+
+        // Add new regular toppings
+        System.out.println("Want to add any other regular toppings? (comma-separated or blank to skip):");
+        for (String r : scanner.nextLine().split(",")) {
+            if (!r.trim().isEmpty()) sandwich.addRegular(r.trim());
+        }
+
+        // Add sauces
+        System.out.println("Enter sauces (comma-separated or leave blank):");
+        for (String sauce : scanner.nextLine().split(",")) {
+            if (!sauce.trim().isEmpty()) sandwich.addSauce(sauce.trim());
+        }
+
+        order.addProduct(sandwich);
+        System.out.println("✔️ Sandwich added!");
+        Logger.log("Custom sandwich added: " + size.getInches() + "\" " + bread);
+    }
+
     private void addSignatureSandwich() {
         System.out.println("\n-- Signature Sandwiches --");
         System.out.println("1. BLT");
         System.out.println("2. Philly Cheese Steak");
         System.out.print("Choose a signature sandwich: ");
-
         int choice = Integer.parseInt(scanner.nextLine());
-        Sandwich sandwich = null;
 
+        Sandwich sandwich;
         switch (choice) {
-            case 1 -> {
-                sandwich = new BLT();
-                Logger.log("Signature sandwich selected: BLT");
-            }
-            case 2 -> {
-                sandwich = new PhillyCheeseSteak();
-                Logger.log("Signature sandwich selected: Philly Cheese Steak");
-            }
+            case 1 -> sandwich = new BLT();
+            case 2 -> sandwich = new PhillyCheeseSteak();
             default -> {
                 System.out.println("Invalid option.");
                 return;
             }
-        }
+        };
+
+        Logger.log("Signature sandwich selected");
 
         // Ask to customize
-        System.out.print("Do you want to customize this sandwich? (yes/no): ");
-        String response = scanner.nextLine();
-        if (response.equalsIgnoreCase("yes")) {
-            // Add meats
-            System.out.println("Add meats (comma-separated or leave blank): ");
-            String[] meats = scanner.nextLine().split(",");
-            for (String meat : meats) {
+        System.out.print("Customize this sandwich? (yes/no): ");
+        if (scanner.nextLine().equalsIgnoreCase("yes")) {
+            System.out.println("Add meats (comma-separated or blank): ");
+            for (String meat : scanner.nextLine().split(",")) {
                 if (!meat.trim().isEmpty()) sandwich.addMeat(meat.trim(), false);
             }
 
-            // Add cheeses
-            System.out.println("Add cheeses (comma-separated or leave blank): ");
-            String[] cheeses = scanner.nextLine().split(",");
-            for (String cheese : cheeses) {
+            System.out.println("Add cheeses (comma-separated or blank): ");
+            for (String cheese : scanner.nextLine().split(",")) {
                 if (!cheese.trim().isEmpty()) sandwich.addCheese(cheese.trim(), false);
             }
 
-            // Add regular toppings
-            System.out.println("Add regular toppings (comma-separated or leave blank): ");
-            String[] regulars = scanner.nextLine().split(",");
-            for (String topping : regulars) {
+            System.out.println("Add regular toppings (comma-separated or blank): ");
+            for (String topping : scanner.nextLine().split(",")) {
                 if (!topping.trim().isEmpty()) sandwich.addRegular(topping.trim());
             }
 
-            // Add sauces
-            System.out.println("Add sauces (comma-separated or leave blank): ");
-            String[] sauces = scanner.nextLine().split(",");
-            for (String sauce : sauces) {
+            System.out.println("Add sauces (comma-separated or blank): ");
+            for (String sauce : scanner.nextLine().split(",")) {
                 if (!sauce.trim().isEmpty()) sandwich.addSauce(sauce.trim());
             }
 
-            // Remove toppings
-            System.out.println("Remove toppings (comma-separated names): ");
-            String[] removals = scanner.nextLine().split(",");
-            for (String rem : removals) {
+            System.out.println("Remove any toppings? (comma-separated or blank): ");
+            for (String rem : scanner.nextLine().split(",")) {
                 if (!rem.trim().isEmpty()) sandwich.removeTopping(rem.trim());
             }
 
@@ -145,119 +170,79 @@ public class UserInterface {
         System.out.println("✔️ Signature sandwich added!");
     }
 
+    private void addDrink() {
+        System.out.print("Enter drink flavor: ");
+        String name = scanner.nextLine();
 
-    public void addSandwich() {
-        System.out.println("\n-- Add Sandwich --");
+        System.out.println("Choose size: 1) Small ($2.00), 2) Medium ($2.50), 3) Large ($3.00)");
+        int sizeChoice = Integer.parseInt(scanner.nextLine());
 
+        double price = switch (sizeChoice) {
+            case 1 -> 2.00;
+            case 2 -> 2.50;
+            case 3 -> 3.00;
+            default -> {
+                System.out.println("Invalid size. Defaulting to small.");
+                yield 2.00;
+            }
+        };
+
+        order.addProduct(new Drink(name, price));
+        System.out.println("✔ Drink added!");
+        Logger.log("Drink added: " + name + " ($" + price + ")");
+    }
+
+    private void addChips() {
+        System.out.print("Enter chip type: ");
+        Chip chip = new Chip(scanner.nextLine());
+        order.addProduct(chip);
+        System.out.println("✔ Chips added!");
+    }
+
+    private void checkOut() {
+        if (order.isEmpty()) {
+            System.out.println("Cannot checkout. Order is empty.");
+            return;
+        }
+
+        order.displayProduct();
+        FileManager.saveReceipt(order);
+        Logger.log("✅ Checkout complete. Total: $" + order.getTotalPrice());
+        System.out.println("✔️ Checkout complete! Returning to Home Screen.");
+    }
+
+    private void exit() {
+        System.out.println("Goodbye! Thanks for using DELI-cious POS.");
+        Logger.log("🛑 Application exited by user.");
+        running = false;
+    }
+
+    // Helpers
+    private BreadType askBreadChoice() {
         System.out.println("Choose bread: 1) WHITE 2) WHEAT 3) RYE 4) WRAP");
-        int breadChoice = Integer.parseInt(scanner.nextLine());
-        BreadType bread = switch (breadChoice) {
+        int choice = Integer.parseInt(scanner.nextLine());
+        return switch (choice) {
             case 1 -> BreadType.WHITE;
             case 2 -> BreadType.WHEAT;
             case 3 -> BreadType.RYE;
             case 4 -> BreadType.WRAP;
             default -> BreadType.WHITE;
         };
-        // Size
+    }
+
+    private Size askSizeChoice() {
         System.out.println("Choose size: 1) 4\" 2) 8\" 3) 12\"");
-        int sizeChoice = Integer.parseInt(scanner.nextLine());
-        Size size = switch (sizeChoice) {
+        int choice = Integer.parseInt(scanner.nextLine());
+        return switch (choice) {
             case 1 -> Size.SMALL_4;
             case 2 -> Size.MEDIUM_8;
             case 3 -> Size.LARGE_12;
             default -> Size.SMALL_4;
         };
+    }
 
-        // Toasted
+    private boolean askToasted() {
         System.out.print("Toasted? (yes/no): ");
-        boolean toasted = scanner.nextLine().equalsIgnoreCase("yes");
-
-        Sandwich sandwich = new Sandwich(bread, size, toasted);
-
-        // Meats
-        System.out.println("Enter meat toppings (comma-separated):");
-        String[] meats = scanner.nextLine().split(",");
-        for (String meat : meats) {
-            if (!meat.trim().isEmpty()) sandwich.addMeat(meat.trim(), false);
-        }
-
-        // Cheeses
-        System.out.println("Enter cheese toppings (comma-separated):");
-        String[] cheeses = scanner.nextLine().split(",");
-        for (String cheese : cheeses) {
-            if (!cheese.trim().isEmpty()) sandwich.addCheese(cheese.trim(), false);
-        }
-
-        // Regular toppings
-        System.out.println("Enter regular toppings (comma-separated):");
-        String[] regulars = scanner.nextLine().split(",");
-        for (String reg : regulars) {
-            if (!reg.trim().isEmpty()) sandwich.addRegular(reg.trim());
-        }
-
-        // Sauces
-        System.out.println("Enter sauces (comma-separated):");
-        String[] sauces = scanner.nextLine().split(",");
-        for (String sauce : sauces) {
-            if (!sauce.trim().isEmpty()) sandwich.addSauce(sauce.trim());
-        }
-
-        order.addProduct(sandwich);
-        System.out.println("✔️ Sandwich added!");
+        return scanner.nextLine().equalsIgnoreCase("yes");
     }
-
-    public void addDrink() {
-        System.out.println("Enter drink flavor: ");
-        String name = scanner.nextLine();
-
-        System.out.println("Choose size: 1) Small ($2.00), 2) Medium ($2.50), 3) Large ($3.00)");
-        int sizeChoice = Integer.parseInt(scanner.nextLine());
-
-        double price;
-        switch (sizeChoice) {
-            case 1 -> price = 2.00;
-            case 2 -> price = 2.50;
-            case 3 -> price = 3.00;
-            default -> {
-                System.out.println("Invalid size. Defaulting to small.");
-                price = 2.00;
-            }
-        }
-
-        Drink drink = new Drink(name, price);
-        order.addProduct(drink);
-
-        System.out.println("✔ Drink added!");
-        Logger.log("Drink added: " + name + " ($" + price + ")");
-    }
-
-    public void addChips() {
-        System.out.println("Enter chip type: ");
-        String chipType = scanner.nextLine();
-
-        Chip chip = new Chip(chipType);
-        order.addProduct(chip);
-
-        System.out.println("✔ Chips added!");
-    }
-
-    public void checkOut() {
-        if (order.isEmpty()) {
-            System.out.println("Cannot checkout. Order is empty.");
-        } else {
-            order.displayProduct();
-            FileManager.saveReceipt(order);  // ✅ Pass entire order
-            System.out.println("Checkout complete! Returning to Home Screen.");
-        }
-        Logger.log("✅ Checkout complete. Total: $" + order.getTotalPrice());
-    }
-
-
-    public void exit() {
-        System.out.println("Goodbye! Thanks for using DELI-cious POS.");
-        Logger.log("🛑 Application exited by user.");
-
-        running = false;
-    }
-
 }

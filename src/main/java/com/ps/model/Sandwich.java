@@ -122,12 +122,31 @@ public class Sandwich implements Product {
     }
 
     // ✅ Getters
-    public Size getSize() { return size; }
-    public BreadType getBread() { return bread; }
-    public boolean isToasted() { return toasted; }
+    public Size getSize() {
+        return size;
+    }
 
-    public List<Topping> getRegularToppings() { return regulars; }
-    public List<Topping> getSauces() { return sauces; }
-    public List<Topping> getMeats() { return meats; }
-    public List<Topping> getCheeses() { return cheeses; }
+    public BreadType getBread() {
+        return bread;
+    }
+
+    public boolean isToasted() {
+        return toasted;
+    }
+
+    public List<Topping> getRegularToppings() {
+        return regulars;
+    }
+
+    public List<Topping> getSauces() {
+        return sauces;
+    }
+
+    public List<Topping> getMeats() {
+        return meats;
+    }
+
+    public List<Topping> getCheeses() {
+        return cheeses;
+    }
 }

@@ -77,7 +77,7 @@ public class UserInterface {
         boolean toasted = askToasted();
 
         Sandwich sandwich = new Sandwich(bread, size, toasted);
-        sandwich.addDefaultRegularToppings(); // Include all default regular toppings
+        sandwich.addDefaultRegularToppings();
 
         // Add meats
         System.out.println("Enter meat toppings (comma-separated or leave blank):");

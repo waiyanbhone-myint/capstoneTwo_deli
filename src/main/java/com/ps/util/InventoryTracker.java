@@ -39,7 +39,7 @@ public class InventoryTracker {
 
     public static void record(String item) {
         usage.put(item, usage.getOrDefault(item, 0) + 1);
-        save(); // Save each time
+        save();
     }
 
     public static void printReport() {

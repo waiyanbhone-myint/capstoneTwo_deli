@@ -80,12 +80,14 @@ public class UserInterface {
         sandwich.addDefaultRegularToppings();
 
         // Add meats
+        System.out.println("Available Meats: Chicken, Ham, Turkey, Roast Beef");
         System.out.println("Enter meat toppings (comma-separated or leave blank):");
         for (String meat : scanner.nextLine().split(",")) {
             if (!meat.trim().isEmpty()) sandwich.addMeat(meat.trim(), false);
         }
 
         // Add cheeses
+        System.out.println("Available Cheese Types: American, Swiss, Cheddar, Mozzarella");
         System.out.println("Enter cheese toppings (comma-separated or leave blank):");
         for (String cheese : scanner.nextLine().split(",")) {
             if (!cheese.trim().isEmpty()) sandwich.addCheese(cheese.trim(), false);
@@ -106,6 +108,7 @@ public class UserInterface {
         }
 
         // Add sauces
+        System.out.println("Available Sauces: Mayo, Mustard, Ketchup, BBQ, Chipotle, Ranch");
         System.out.println("Enter sauces (comma-separated or leave blank):");
         for (String sauce : scanner.nextLine().split(",")) {
             if (!sauce.trim().isEmpty()) sandwich.addSauce(sauce.trim());
@@ -164,6 +167,8 @@ public class UserInterface {
             }
 
             System.out.println("✨ Customization complete.");
+            Logger.log("Signature sandwich customized");
+
         }
 
         order.addProduct(sandwich);
@@ -190,6 +195,7 @@ public class UserInterface {
         order.addProduct(new Drink(name, price));
         System.out.println("✔ Drink added!");
         Logger.log("Drink added: " + name + " ($" + price + ")");
+
     }
 
     private void addChips() {
@@ -197,6 +203,7 @@ public class UserInterface {
         Chip chip = new Chip(scanner.nextLine());
         order.addProduct(chip);
         System.out.println("✔ Chips added!");
+        //Logger.log("Signature sandwich customized");
     }
 
     private void checkOut() {
@@ -244,5 +251,6 @@ public class UserInterface {
     private boolean askToasted() {
         System.out.print("Toasted? (yes/no): ");
         return scanner.nextLine().equalsIgnoreCase("yes");
+
     }
 }

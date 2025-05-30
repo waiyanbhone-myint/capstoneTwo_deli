@@ -47,6 +47,7 @@ public class InventoryTracker {
         for (Map.Entry<String, Integer> entry : usage.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue() + " sold");
         }
+        Logger.log("📦 Inventory report viewed");
     }
 
     public static void reset() {

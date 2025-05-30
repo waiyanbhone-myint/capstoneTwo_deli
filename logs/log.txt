@@ -17,3 +17,10 @@
 [2025-05-29T23:17:49.338140] Custom sandwich added: 4" WHITE
 [2025-05-29T23:17:54.164750] ✅ Checkout complete. Total: $5.5
 [2025-05-29T23:17:59.728143] 🛑 Application exited by user.
+[2025-05-30T09:01:53.422179] Custom sandwich added: 4" WHITE
+[2025-05-30T09:02:20.871739] Drink added: coca cola ($2.5)
+[2025-05-30T09:02:26.476292] Signature sandwich selected
+[2025-05-30T09:02:30.902607] ✅ Checkout complete. Total: $21.25
+[2025-05-30T09:04:51.981301] 📦 Inventory report viewed
+[2025-05-30T09:05:22.058777] Custom sandwich added: 8" WHEAT
+[2025-05-30T09:05:24.341766] ✅ Checkout complete. Total: $12.5

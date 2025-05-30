@@ -94,18 +94,6 @@ capstoneTwo_deli/
 
 ---
 
-## 📬 Sending Receipts via Email (Optional)
-
-To enable email functionality:
-
-1. **Set up AWS SES** and verify your sender email address.
-2. **Configure your application** to use AWS SES credentials.
-3. **Modify the code** to send receipts to customer emails upon checkout.
-
-*Note: Ensure that your AWS SES account is out of the sandbox environment to send emails to unverified addresses.*
-
----
-
 ## 📊 Inventory Report
 
 Access the inventory report from the home screen to view the number of each item sold during the session. This feature uses a `HashMap` to track item counts.

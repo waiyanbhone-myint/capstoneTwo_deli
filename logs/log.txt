@@ -12,3 +12,5 @@
 [2025-05-29T20:06:37.087946] 🛑 Application exited by user.
 [2025-05-29T21:04:56.397733] Custom sandwich added: 8" WHITE
 [2025-05-29T21:05:05.846390] ✅ Checkout complete. Total: $7.0
+[2025-05-29T22:48:08.905700] Custom sandwich added: 4" WHITE
+[2025-05-29T22:48:12.014253] ✅ Checkout complete. Total: $6.5
